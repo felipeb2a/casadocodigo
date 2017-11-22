@@ -26,10 +26,10 @@ public class ProductsController {
 	@Autowired
 	private ProductDAO productDAO;
 
-	// @RequestMapping("/produtos")
+	@RequestMapping("/produtos")
 	public String save(Product product) {
 		productDAO.save(product);
-		return "products/ok";
+		return "form";
 	}
 
 	@RequestMapping("/produtos/form")
