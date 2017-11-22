@@ -49,16 +49,16 @@ public class ProductsController {
 		return modelAndView;
 	}
 
-	// @RequestMapping(method = RequestMethod.POST)
-	// public String save(Product product) {
-	// productDAO.save(product);
-	// return "products/ok";
-	// }
+//	 @RequestMapping(method = RequestMethod.POST)
+//	 public String save(Product product) {
+//	 productDAO.save(product);
+//	 return "redirect:produtos";
+//	 }
 
 	@RequestMapping(method = RequestMethod.POST)
 	public ModelAndView save(Product product) {
 		productDAO.save(product);
-		return list();
+		return new ModelAndView("redirect:produtos");
 	}
 
 	@RequestMapping(method = RequestMethod.GET)

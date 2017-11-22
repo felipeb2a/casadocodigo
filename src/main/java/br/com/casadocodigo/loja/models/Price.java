@@ -7,10 +7,11 @@ import javax.persistence.Embeddable;
 
 @Embeddable
 public class Price {
+
 	@Column(scale = 2)
 	private BigDecimal value;
-	private BookType booktpe;
-	
+	private BookType bookType;
+
 	public BigDecimal getValue() {
 		return value;
 	}
@@ -19,15 +20,20 @@ public class Price {
 		this.value = value;
 	}
 
-	public BookType getBooktpe() {
-		return booktpe;
+	public BookType getBookType() {
+		return bookType;
 	}
 
-	public void setBooktpe(BookType booktpe) {
-		this.booktpe = booktpe;
+	public void setBookType(BookType bookType) {
+		this.bookType = bookType;
 	}
 
 	public enum BookType {
 		EBOOK, PRINTED, COMBO
+	}
+
+	@Override
+	public String toString() {
+		return "Price [value=" + value + ", bookType=" + bookType + "]";
 	}
 }
