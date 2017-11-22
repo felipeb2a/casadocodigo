@@ -4,8 +4,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.servlet.ModelAndView;
 
 import br.com.casadocodigo.loja.daos.ProductDAO;
+import br.com.casadocodigo.loja.models.Price.BookType;
 import br.com.casadocodigo.loja.models.Product;
 
 @Controller
@@ -26,15 +28,27 @@ public class ProductsController {
 	@Autowired
 	private ProductDAO productDAO;
 
-	@RequestMapping("/produtos")
+	//@RequestMapping("/produtos")
 	public String save(Product product) {
 		productDAO.save(product);
-		return "form";
+		return "products/ok";
 	}
 
-	@RequestMapping("/produtos/form")
-	public String form() {
-		return "products/form";
+	/**
+	 * 
+	 * @RequestMapping("/produtos/form") public String form() { return
+	 * "products/form"; }
+	 * 
+	 */
+
+	// classe ModelAndView possui métodos que nos permitem ir adicionando objetos
+	// que serão
+	// disponibilizados na view
+	@RequestMapping("/form")
+	public ModelAndView form() {
+		ModelAndView modelAndView = new ModelAndView("products/form");
+		modelAndView.addObject("types", BookType.values());
+		return modelAndView;
 	}
 
 }
