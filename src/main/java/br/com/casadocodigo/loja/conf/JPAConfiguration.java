@@ -23,12 +23,12 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 @EnableTransactionManagement
 public class JPAConfiguration {
 
-	/*@Bean
+	@Bean
 	public LocalContainerEntityManagerFactoryBean entityManagerFactory() {
-		//E a abstração do arquivo persistence.xml
+		// E a abstração do arquivo persistence.xml
 		LocalContainerEntityManagerFactoryBean em = new LocalContainerEntityManagerFactoryBean();
 		em.setDataSource(dataSource());
-		//em.setDataSource((javax.sql.DataSource) dataSource());
+		// em.setDataSource((javax.sql.DataSource) dataSource());
 		em.setPackagesToScan(new String[] { "br.com.casadocodigo.loja.models" });
 		JpaVendorAdapter vendorAdapter = new HibernateJpaVendorAdapter();
 		em.setJpaVendorAdapter(vendorAdapter);
@@ -36,7 +36,7 @@ public class JPAConfiguration {
 
 		return em;
 	}
-*/
+
 	@Bean
 	public DataSource dataSource() {
 		DriverManagerDataSource dataSource = new DriverManagerDataSource();
@@ -45,7 +45,7 @@ public class JPAConfiguration {
 		dataSource.setUsername("casadocodigo");
 		dataSource.setPassword("casadocodigo");
 		return dataSource;
-		//return (DataSource) dataSource;
+		// return (DataSource) dataSource;
 	}
 
 	private Properties additionalProperties() {
