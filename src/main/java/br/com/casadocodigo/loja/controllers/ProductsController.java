@@ -13,7 +13,6 @@ import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import br.com.casadocodigo.loja.daos.ProductDAO;
 import br.com.casadocodigo.loja.models.Price.BookType;
@@ -67,13 +66,14 @@ public class ProductsController {
 		return modelAndView;
 	}
 
-	// @RequestMapping(method = RequestMethod.POST)
-	// public String save(Product product) {
-	// productDAO.save(product);
-	// return "redirect:produtos";
-	// }
+//	 @RequestMapping(method = RequestMethod.POST)
+//	 public String save(Product product) {
+//	 productDAO.save(product);
+//	 return "redirect:produtos";
+//	 }
 
 	@RequestMapping(method = RequestMethod.POST)
+<<<<<<< HEAD
 
 	/*
 	 * A annotation @Valid vem da especifcação Bean Validation, e é utilizada por
@@ -84,8 +84,10 @@ public class ProductsController {
 		if (bindingResult.hasErrors()) {
 			return form();
 		}
+=======
+	public ModelAndView save(Product product) {
+>>>>>>> parent of a36cf72... 4.7 Parâmetros extras nos redirects
 		productDAO.save(product);
-		redirectAttributes.addFlashAttribute("sucesso", "Produto cadastrado com sucesso");
 		return new ModelAndView("redirect:produtos");
 	}
 
