@@ -1,15 +1,8 @@
 package br.com.casadocodigo.loja.controllers;
 
-import javax.validation.Valid;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.util.StringUtils;
-import org.springframework.validation.BindingResult;
-import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.WebDataBinder;
-import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
@@ -17,7 +10,6 @@ import org.springframework.web.servlet.ModelAndView;
 import br.com.casadocodigo.loja.daos.ProductDAO;
 import br.com.casadocodigo.loja.models.Price.BookType;
 import br.com.casadocodigo.loja.models.Product;
-import br.com.casadocodigo.loja.validation.ProductValidator;
 
 @Controller
 
@@ -47,15 +39,6 @@ public class ProductsController {
 	// return "products/form";
 	// }
 
-	/*
-	 * A annotation @InitBinder indica que esse método deve ser chamado sempre que
-	 * um request cair no controller em questão.
-	 */
-	@InitBinder
-	protected void initBinder(WebDataBinder binder) {
-		//binder.setValidator(new ProductValidator());
-	}
-
 	// classe ModelAndView possui métodos que nos permitem ir adicionando objetos
 	// que serão
 	// disponibilizados na view
@@ -74,6 +57,7 @@ public class ProductsController {
 
 	@RequestMapping(method = RequestMethod.POST)
 <<<<<<< HEAD
+<<<<<<< HEAD
 
 	/*
 	 * A annotation @Valid vem da especifcação Bean Validation, e é utilizada por
@@ -87,6 +71,9 @@ public class ProductsController {
 =======
 	public ModelAndView save(Product product) {
 >>>>>>> parent of a36cf72... 4.7 Parâmetros extras nos redirects
+=======
+	public ModelAndView save(Product product, RedirectAttributes redirectAttributes) {
+>>>>>>> parent of fec708c... 5.1 Validação básica
 		productDAO.save(product);
 		return new ModelAndView("redirect:produtos");
 	}
