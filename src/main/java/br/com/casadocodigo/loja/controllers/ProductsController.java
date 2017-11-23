@@ -58,6 +58,7 @@ public class ProductsController {
 	@RequestMapping(method = RequestMethod.POST)
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 
 	/*
 	 * A annotation @Valid vem da especifcação Bean Validation, e é utilizada por
@@ -71,6 +72,9 @@ public class ProductsController {
 =======
 	public ModelAndView save(Product product) {
 >>>>>>> parent of a36cf72... 4.7 Parâmetros extras nos redirects
+=======
+	public ModelAndView save(Product product, RedirectAttributes redirectAttributes) {
+>>>>>>> parent of fec708c... 5.1 Validação básica
 =======
 	public ModelAndView save(Product product, RedirectAttributes redirectAttributes) {
 >>>>>>> parent of fec708c... 5.1 Validação básica
