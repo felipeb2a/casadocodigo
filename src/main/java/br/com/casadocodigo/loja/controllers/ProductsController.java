@@ -1,8 +1,12 @@
 package br.com.casadocodigo.loja.controllers;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -12,6 +16,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import br.com.casadocodigo.loja.daos.ProductDAO;
 import br.com.casadocodigo.loja.models.Price.BookType;
 import br.com.casadocodigo.loja.models.Product;
+import br.com.casadocodigo.loja.validation.ProductValidator;
 
 @Controller
 
@@ -23,6 +28,7 @@ import br.com.casadocodigo.loja.models.Product;
 // um endereço base diretamente sobre a classe
 @RequestMapping("/produtos")
 public class ProductsController {
+
 	/*
 	 * Ao inves de criarmos o objeto
 	 * "private ProductDAO productDAO = new ProductDAO();" construtor do ProductDAO
@@ -35,6 +41,11 @@ public class ProductsController {
 	 */
 	@Autowired
 	private ProductDAO productDAO;
+
+	@InitBinder
+	protected void initBinder(WebDataBinder binder) {
+		binder.setValidator(new ProductValidator());
+	}
 
 	// @RequestMapping("/form")
 	// public String form() {
@@ -57,13 +68,26 @@ public class ProductsController {
 	// return "redirect:produtos";
 	// }
 
-	@RequestMapping(method = RequestMethod.POST)
+	// validator old
+	// @RequestMapping(method = RequestMethod.POST)
 	/*
 	 * A annotation @Valid vem da especifcação Bean Validation, e é utilizada por
 	 * diversos frameworks para indicar o disparo do processo de validação.
 	 */
-	public ModelAndView save(Product product, RedirectAttributes redirectAttributes) {
+	// public ModelAndView save(Product product, RedirectAttributes
+	// redirectAttributes) {
+	// productDAO.save(product);
+	// return new ModelAndView("redirect:produtos");
+	// }
+
+	@RequestMapping(method = RequestMethod.POST)
+	public ModelAndView save(@Valid Product product, BindingResult bindingResult,
+			RedirectAttributes redirectAttributes) {
+		if (bindingResult.hasErrors()) {
+			return form();
+		}
 		productDAO.save(product);
+		redirectAttributes.addFlashAttribute("sucesso", "Produto cadastrado com sucesso");
 		return new ModelAndView("redirect:produtos");
 	}
 
