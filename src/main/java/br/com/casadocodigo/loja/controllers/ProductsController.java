@@ -1,5 +1,6 @@
 package br.com.casadocodigo.loja.controllers;
 
+import javax.servlet.http.Part;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,12 +9,15 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.InitBinder;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import br.com.casadocodigo.loja.daos.ProductDAO;
+import br.com.casadocodigo.loja.infra.FileSaver;
 import br.com.casadocodigo.loja.models.Price.BookType;
 import br.com.casadocodigo.loja.models.Product;
 import br.com.casadocodigo.loja.validation.ProductValidator;
@@ -41,51 +45,48 @@ public class ProductsController {
 	 */
 	@Autowired
 	private ProductDAO productDAO;
-
-	@InitBinder
-	protected void initBinder(WebDataBinder binder) {
-		binder.setValidator(new ProductValidator());
-	}
-
-	// @RequestMapping("/form")
-	// public String form() {
-	// return "products/form";
+	@Autowired
+	private FileSaver fileSaver;
+	// @InitBinder
+	// protected void initBinder(WebDataBinder binder) {
+	// binder.setValidator(new ProductValidator());
 	// }
 
 	// classe ModelAndView possui métodos que nos permitem ir adicionando objetos
 	// que serão
 	// disponibilizados na view
 	@RequestMapping("/form")
-	public ModelAndView form() {
+	public ModelAndView form(@ModelAttribute Product product) {
 		ModelAndView modelAndView = new ModelAndView("products/form");
 		modelAndView.addObject("types", BookType.values());
 		return modelAndView;
 	}
 
-	// @RequestMapping(method = RequestMethod.POST)
-	// public String save(Product product) {
-	// productDAO.save(product);
-	// return "redirect:produtos";
-	// }
-
-	// validator old
-	// @RequestMapping(method = RequestMethod.POST)
+	@RequestMapping(method = RequestMethod.POST, name = "saveProduct")
 	/*
-	 * A annotation @Valid vem da especifcação Bean Validation, e é utilizada por
-	 * diversos frameworks para indicar o disparo do processo de validação.
+	 * @Valid A annotation @Valid vem da especifcação Bean Validation, e é utilizada
+	 * por diversos frameworks para indicar o disparo do processo de validação.
+	 * 
+	 * @ModelAttribute Estamos sempre confgurando o atributo commandName com o mesmo
+	 * nome do tipo do parâmetro recebido no método. Caso você queira alterar isso,
+	 * por exemplo passando o valor “objetoAtual”, pode utilizar a
+	 * annotation @ModelAttribute.
+	 *
+	 * #Part summary especifcação de Servlets e a interface responsável por
+	 * representar o arquivo que foi enviado pelo formulário. Perceba que o nome do
+	 * argumento é o mesmo nome do input que declaramos no formulário
 	 */
-	// public ModelAndView save(Product product, RedirectAttributes
-	// redirectAttributes) {
-	// productDAO.save(product);
-	// return new ModelAndView("redirect:produtos");
-	// }
+	public ModelAndView save(MultipartFile summary, @ModelAttribute("product") @Valid Product product,
+			BindingResult bindingResult, RedirectAttributes redirectAttributes) {
 
-	@RequestMapping(method = RequestMethod.POST)
-	public ModelAndView save(@Valid Product product, BindingResult bindingResult,
-			RedirectAttributes redirectAttributes) {
 		if (bindingResult.hasErrors()) {
-			return form();
+			return form(product);
 		}
+		
+		System.out.println(summary.getName() + ";" + summary.getOriginalFilename());
+
+		String webPath = fileSaver.write("uploaded-images", summary);
+		product.setSummaryPath(webPath);
 		productDAO.save(product);
 		redirectAttributes.addFlashAttribute("sucesso", "Produto cadastrado com sucesso");
 		return new ModelAndView("redirect:produtos");
