@@ -59,8 +59,8 @@
 		</div>
 		<div>
 			<label for="summary">Sumario do livro</label>
-			<input type="file" name="summary"/>
-			<form:errors path="summaryPath"/>
+			<input type="file" name="summary" />
+			<form:errors path="summaryPath" />
 		</div>
 		<c:forEach items="${types}" var="bookType" varStatus="status">
 			<div>

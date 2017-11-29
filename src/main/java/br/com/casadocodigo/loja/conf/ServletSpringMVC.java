@@ -7,6 +7,8 @@ import javax.servlet.ServletRegistration.Dynamic;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.support.AbstractAnnotationConfigDispatcherServletInitializer;
 
+import br.com.casadocodigo.loja.controllers.AmazonConfiguration;
+
 //import br.com.casadocodigo.loja.controllers.HomeController;
 //import br.com.casadocodigo.loja.daos.ProductDAO;
 /*
@@ -24,6 +26,9 @@ public class ServletSpringMVC extends AbstractAnnotationConfigDispatcherServletI
 
 	@Override
 	protected Class<?>[] getRootConfigClasses() {
+		// return new Class[] { SecurityConfiguration.class, AppWebConfiguration.class,
+		// JPAConfiguration.class,
+		// JPAProductionConfiguration.class, AmazonConfiguration.class };
 		return null;
 	}
 
@@ -31,7 +36,8 @@ public class ServletSpringMVC extends AbstractAnnotationConfigDispatcherServletI
 	// quais outras classes devem ser carregadas pelo container do próprio Spring
 	@Override
 	protected Class<?>[] getServletConfigClasses() {
-		return new Class[] { AppWebConfiguration.class, JPAConfiguration.class };
+		return new Class[] { AppWebConfiguration.class, JPAConfiguration.class, AmazonConfiguration.class };
+		// return new Class[] {};
 		// return null;
 	}
 
